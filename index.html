@@ -1,0 +1,2465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Calculator & Romantic Tools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- Global Styles & Variables --- */
+        :root {
+            --primary-color: #ff8fab; /* Light Pink */
+            --secondary-color: #a48fff; /* Lavender */
+            --accent-color: #e63946; /* Deep Red */
+            --text-color: #333;
+            --light-text-color: #f8f8f8;
+            --bg-gradient: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+            --glass-bg: rgba(255, 255, 255, 0.2);
+            --glass-blur: 10px;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+            --glow-color: rgba(255, 192, 203, 0.7); /* Pink glow */
+            --font-heading: 'Dancing Script', cursive;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        /* --- ALL OTHER CSS REMAINS THE SAME --- */
+        /* Paste the rest of your CSS here from the original code */
+        /* --- INCLUDING --- */
+
+        /* --- AD STYLES --- */
+        #banner-ad-container {
+            text-align: center; /* Center the banner */
+            margin: 2rem auto 1rem auto; /* Add space around the banner */
+            max-width: 320px; /* Ensure container doesn't exceed ad width */
+            min-height: 50px; /* Ensure space is reserved even if ad doesn't load */
+            background-color: rgba(255,255,255,0.1); /* Optional: Placeholder background */
+        }
+
+         /* --- (Rest of your CSS...) --- */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-color);
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Background Animation --- */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: var(--primary-color);
+            opacity: 0;
+            transform: rotate(-45deg);
+            animation: floatUp 10s infinite linear;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -7.5px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 7.5px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                bottom: -50px;
+                opacity: 0;
+                transform: translateY(0) rotate(-45deg) scale(0.5);
+            }
+            10% {
+                opacity: 0.8;
+                transform: translateY(-10vh) rotate(-45deg) scale(0.8);
+            }
+            50% {
+                 opacity: 1;
+                 transform: translateY(-50vh) rotate(-45deg) scale(1);
+            }
+            90% {
+                opacity: 0.5;
+                transform: translateY(-90vh) rotate(-45deg) scale(0.7);
+            }
+            100% {
+                bottom: 100vh;
+                opacity: 0;
+                transform: translateY(-100vh) rotate(-45deg) scale(0.5);
+            }
+        }
+
+        /* --- Main App Container --- */
+        .app-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            width: 90%;
+            flex-grow: 1; /* Makes container take available space */
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            color: var(--accent-color);
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Navigation --- */
+        .tool-selector-container {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        #tool-selector {
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            border-radius: 25px;
+            border: 1px solid var(--secondary-color);
+            background-color: rgba(255, 255, 255, 0.8);
+            font-family: var(--font-body);
+            cursor: pointer;
+            appearance: none; /* Remove default arrow */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23%23a48fff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 0.8em auto;
+            min-width: 250px;
+            max-width: 100%;
+        }
+
+        #tool-selector:focus {
+            outline: none;
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
+        /* --- Glassmorphism Card --- */
+        .glassmorphism-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur)); /* Safari */
+            border-radius: 15px;
+            border: var(--glass-border);
+            padding: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            color: var(--text-color); /* Darker text for readability on glass */
+            margin-bottom: 2rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+         .glassmorphism-card h2 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* --- Form Elements --- */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555; /* Slightly darker label */
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 8px rgba(164, 143, 255, 0.5); /* Lavender glow */
+        }
+
+         .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+         }
+
+        /* --- Animated Outline Button --- */
+        .animated-button {
+            padding: 0.8rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--light-text-color);
+            background-color: var(--primary-color);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1;
+            display: inline-block; /* Ensures proper layout */
+            margin-top: 0.5rem; /* Space above button */
+        }
+
+        .animated-button::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color), var(--accent-color));
+            border-radius: 27px; /* Slightly larger than button */
+            z-index: -2;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .animated-button::after { /* Inner background */
+             content: '';
+             position: absolute;
+             top: 0; left: 0; right: 0; bottom: 0;
+             background-color: var(--primary-color);
+             border-radius: 25px;
+             z-index: -1;
+             transition: background-color 0.3s ease;
+        }
+
+
+        .animated-button:hover {
+            color: var(--primary-color);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        .animated-button:hover::before {
+             opacity: 1; /* Show gradient border */
+        }
+         .animated-button:hover::after {
+             background-color: rgba(255, 255, 255, 0.9); /* White inner background on hover */
+        }
+
+        .animated-button:active {
+            transform: scale(0.95);
+             box-shadow: 0 0 8px var(--glow-color);
+        }
+
+        /* --- Results Area --- */
+        .result-area {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .result-area p {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+         .result-area strong {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Tool Specific Styles --- */
+
+        /* Love Percentage Animation */
+        .love-progress-container {
+            width: 100%;
+            background-color: #eee;
+            border-radius: 15px;
+            height: 30px;
+            margin: 1rem auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .love-progress-bar {
+            height: 100%;
+            width: 0; /* Starts at 0 */
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 15px;
+            transition: width 1.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+         .love-progress-bar span {
+            position: absolute; /* Center text over bar */
+             width: 100%;
+             text-align: center;
+             color: var(--light-text-color);
+             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+             opacity: 0;
+             transition: opacity 0.5s 1s; /* Fade in after bar animates */
+         }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 1rem 0;
+            list-style: none;
+        }
+        .timeline::before { /* The vertical line */
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 40px; /* Position based on icon size */
+            width: 4px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 70px; /* Space for icon and line */
+        }
+        .timeline-icon {
+            position: absolute;
+            left: 28px; /* Center on the line */
+            top: 0;
+            width: 24px; /* Icon size */
+            height: 24px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 1; /* Above the line */
+        }
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .timeline-content h3 {
+             font-size: 1.1rem;
+             color: var(--accent-color);
+             margin-bottom: 0.3rem;
+         }
+         .timeline-content p {
+            font-size: 0.95rem;
+            color: #555;
+         }
+
+
+        /* Spinner Wheel */
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 1rem;
+        }
+        .wheel {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            border: 5px solid var(--secondary-color);
+            background: conic-gradient(
+                #ffadad 0deg 60deg, #ffd6a5 60deg 120deg,
+                #fdffb6 120deg 180deg, #caffbf 180deg 240deg,
+                #9bf6ff 240deg 300deg, #a0c4ff 300deg 360deg
+            );
+            transition: transform 4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Spin animation */
+        }
+        .wheel::after { /* Pointer */
+            content: '▼';
+            font-size: 2rem;
+            color: var(--accent-color);
+            position: absolute;
+            top: -25px; /* Above the wheel */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        /* Add segments visually if needed, otherwise just use JS for result */
+
+        /* ASCII Art */
+        #ascii-art-output {
+            font-family: monospace;
+            white-space: pre;
+            line-height: 1.2;
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto; /* Handle long lines */
+            text-align: center;
+            font-size: 0.8rem; /* Make it denser */
+        }
+
+        /* Diary */
+        #diary-entries div {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary-color);
+            font-size: 0.95rem;
+        }
+         #diary-entries div small {
+             display: block;
+             color: #777;
+             font-size: 0.8rem;
+             margin-top: 0.3rem;
+         }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            margin-top: auto; /* Pushes footer to bottom */
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: #e63946cc; /* Slightly transparent red */
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+
+        footer span { /* Heart icon */
+            color: var(--accent-color);
+            display: inline-block;
+            margin: 0 5px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* --- Utility Classes --- */
+        .text-center { text-align: center; }
+        .hidden { display: none; }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .app-container { width: 95%; padding: 1rem; }
+            .glassmorphism-card { padding: 1.5rem; }
+            .form-group input, .form-group select, .form-group textarea, #tool-selector { font-size: 0.95rem; padding: 0.7rem; }
+            .animated-button { padding: 0.7rem 1.5rem; font-size: 0.95rem; }
+            footer { font-size: 1.1rem; }
+
+            /* Timeline Adjustments */
+             .timeline::before { left: 20px; }
+             .timeline-item { padding-left: 45px; }
+             .timeline-icon { left: 8px; width: 20px; height: 20px; font-size: 0.7rem; }
+
+             .wheel { width: 200px; height: 200px; }
+        }
+
+         @media (max-width: 480px) {
+             h1 { font-size: 2rem; }
+             .glassmorphism-card h2 { font-size: 1.3rem; }
+             .result-area strong { font-size: 1.3rem; }
+              footer { font-size: 1rem; }
+         }
+
+         /* Sound Toggle Button Style */
+         #sound-toggle {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            z-index: 100;
+            transition: all 0.3s ease;
+         }
+         #sound-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 8px var(--glow-color);
+         }
+         #sound-toggle.on {
+             background-color: var(--secondary-color);
+             color: white;
+         }
+
+    </style>
+</head>
+<body>
+    <div class="background-animation" id="background-animation"></div>
+
+    <div class="app-container">
+        <h1>Love Suite</h1>
+
+        <div class="tool-selector-container">
+            <select id="tool-selector">
+                <option value="">-- Select a Romantic Tool --</option>
+                <option value="loveCalculator">1. Love Percentage Calculator</option>
+                <option value="nameCompatibility">2. Name Compatibility Test</option>
+                <option value="zodiacMatch">3. Zodiac Love Match</option>
+                <option value="birthdayMatch">4. Birthday Match Analyzer</option>
+                <option value="anniversaryCountdown">5. Anniversary Countdown</option>
+                <option value="loveQuotes">6. Love Quote of the Day</option>
+                <option value="memoryTimeline">7. Love Memory Timeline</option>
+                <option value="nicknameGenerator">8. Couple Nickname Generator</option>
+                <option value="messageGenerator">9. Romantic Message Generator</option>
+                <option value="babyNameCombiner">10. Future Baby Name Combiner</option>
+                <option value="poemWriter">11. Love Poem Writer (Mini)</option>
+                <option value="dateNightGenerator">12. Date Night Idea Generator</option>
+                <option value="loveStoryBuilder">13. Love Story Builder</option>
+                <option value="vibesReader">14. Relationship Vibes Reader</option>
+                <option value="voiceRecorder">15. Voice Message Recorder</option>
+                <option value="textToArt">16. Text to Love Note Art</option>
+                <option value="starMap">17. Star Map Generator (Simple)</option>
+                <option value="loveDareSpinner">18. Love Dare Spinner</option>
+                <option value="heartRain">19. Heart Emoji Rain Mode</option>
+                <option value="loveDiary">20. Personal Love Diary</option>
+            </select>
+        </div>
+
+        <div id="tool-display" class="glassmorphism-card">
+            <h2>Welcome to the Love Suite!</h2>
+            <p class="text-center">Select a tool from the dropdown above to begin your romantic journey.</p>
+        </div>
+
+    </div>
+
+    <div id="banner-ad-container">
+        <script type="text/javascript">
+            atOptions = {
+                /* Ensure 'key' matches EXACTLY your Adsterra banner unit key */
+                'key' : '11a736e16dcaa87589ba848d8a7e5074',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/11a736e16dcaa87589ba848d8a7e5074/invoke.js"></script>
+    </div>
+    <footer>
+        Made with <span>❤️</span> by Sujan BASU
+    </footer>
+
+    <button id="sound-toggle">Sound: Off</button>
+
+    <script>
+        // --- ALL YOUR APP JAVASCRIPT REMAINS THE SAME ---
+        // Paste the rest of your JavaScript here from the original code
+
+        // --- Global Variables & DOM Elements ---
+        const toolSelector = document.getElementById('tool-selector');
+        const toolDisplay = document.getElementById('tool-display');
+        const backgroundAnimation = document.getElementById('background-animation');
+        const soundToggleButton = document.getElementById('sound-toggle');
+
+        let soundEnabled = false;
+        let audioContext; // For Web Audio API compatibility
+        let clickSound, successSound, spinSound; // Audio elements
+
+        // --- Sound Handling ---
+        function initAudio() {
+            try {
+                // Use AudioContext for better compatibility and control
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                // Preload sounds (using simple data URIs for self-containment)
+                // Basic click sound (replace with better base64 if needed)
+                clickSound = new Audio("data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU"); // Short placeholder click
+                // Basic success sound (replace with better base64 if needed)
+                successSound = new Audio("data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YWE"); // Short placeholder success
+                // Basic spin sound (replace with better base64 if needed)
+                spinSound = new Audio("data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSg"); // Short placeholder spin
+
+            } catch (e) {
+                console.error("Web Audio API is not supported in this browser. Sound effects disabled.", e);
+                // Disable sound toggle if context fails
+                soundToggleButton.disabled = true;
+                soundToggleButton.textContent = "Sound N/A";
+                soundEnabled = false;
+            }
+        }
+
+        function playSound(sound) {
+             if (soundEnabled && sound && audioContext) {
+                 // Ensure audio context is running (required by some browsers after user interaction)
+                 if (audioContext.state === 'suspended') {
+                     audioContext.resume();
+                 }
+                 sound.currentTime = 0; // Rewind to start
+                 sound.play().catch(e => console.error("Error playing sound:", e));
+             }
+        }
+
+        soundToggleButton.addEventListener('click', () => {
+            if (!audioContext) initAudio(); // Initialize audio on first click if needed
+
+            soundEnabled = !soundEnabled;
+            soundToggleButton.textContent = `Sound: ${soundEnabled ? 'On' : 'Off'}`;
+            soundToggleButton.classList.toggle('on', soundEnabled);
+            if(soundEnabled) {
+                playSound(clickSound); // Play a confirmation sound
+            }
+        });
+
+
+        // --- Background Animation ---
+        function createHearts() {
+            const heartCount = 15; // Number of hearts
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDuration = `${Math.random() * 5 + 5}s`; // 5-10 seconds duration
+                heart.style.animationDelay = `${Math.random() * 5}s`; // 0-5 seconds delay
+                heart.style.opacity = `${Math.random() * 0.5 + 0.3}`; // Vary opacity
+                heart.style.transform = `scale(${Math.random() * 0.5 + 0.5})`; // Vary size
+                 const colorVariation = Math.random();
+                 if (colorVariation < 0.33) heart.style.backgroundColor = 'var(--primary-color)';
+                 else if (colorVariation < 0.66) heart.style.backgroundColor = 'var(--secondary-color)';
+                 else heart.style.backgroundColor = 'rgba(230, 57, 70, 0.7)'; // Lighter red
+
+
+                backgroundAnimation.appendChild(heart);
+            }
+        }
+        createHearts(); // Initial hearts
+
+        // --- Tool Rendering Logic ---
+        toolSelector.addEventListener('change', (event) => {
+            const selectedTool = event.target.value;
+            displayTool(selectedTool);
+            playSound(clickSound);
+        });
+
+        function displayTool(toolName) {
+            // Clear previous content
+            toolDisplay.innerHTML = '';
+            toolDisplay.classList.remove('heart-rain-active'); // Ensure rain mode class is removed
+
+            // Reset specific tool states if necessary (e.g., clear intervals)
+            if (countdownInterval) clearInterval(countdownInterval);
+            if (heartRainInterval) clearInterval(heartRainInterval);
+            // Could add more resets here if other tools have ongoing processes
+
+            switch (toolName) {
+                case 'loveCalculator':
+                    renderLoveCalculator();
+                    break;
+                case 'nameCompatibility':
+                    renderNameCompatibility();
+                    break;
+                case 'zodiacMatch':
+                    renderZodiacMatch();
+                    break;
+                case 'birthdayMatch':
+                    renderBirthdayMatch();
+                    break;
+                case 'anniversaryCountdown':
+                    renderAnniversaryCountdown();
+                    break;
+                case 'loveQuotes':
+                    renderLoveQuotes();
+                    break;
+                case 'memoryTimeline':
+                    renderMemoryTimeline();
+                    break;
+                case 'nicknameGenerator':
+                    renderNicknameGenerator();
+                    break;
+                case 'messageGenerator':
+                    renderMessageGenerator();
+                    break;
+                case 'babyNameCombiner':
+                    renderBabyNameCombiner();
+                    break;
+                case 'poemWriter':
+                    renderPoemWriter();
+                    break;
+                case 'dateNightGenerator':
+                    renderDateNightGenerator();
+                    break;
+                case 'loveStoryBuilder':
+                    renderLoveStoryBuilder();
+                    break;
+                case 'vibesReader':
+                    renderVibesReader();
+                    break;
+                case 'voiceRecorder':
+                    renderVoiceRecorder();
+                    break;
+                case 'textToArt':
+                    renderTextToArt();
+                    break;
+                case 'starMap':
+                    renderStarMap();
+                    break;
+                case 'loveDareSpinner':
+                    renderLoveDareSpinner();
+                    break;
+                case 'heartRain':
+                    renderHeartRain();
+                    break;
+                case 'loveDiary':
+                    renderLoveDiary();
+                    break;
+                default:
+                    toolDisplay.innerHTML = `<h2>Welcome to the Love Suite!</h2><p class="text-center">Select a tool from the dropdown above to begin your romantic journey.</p>`;
+            }
+        }
+
+        // --- Tool Implementations ---
+
+        // 1. Love Percentage Calculator
+        function renderLoveCalculator() {
+            toolDisplay.innerHTML = `
+                <h2>Love Percentage Calculator</h2>
+                <div class="form-group">
+                    <label for="name1">Your Name:</label>
+                    <input type="text" id="name1" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="name2">Partner's Name:</label>
+                    <input type="text" id="name2" placeholder="Enter partner's name">
+                </div>
+                <div class="text-center">
+                    <button id="calculateLoveBtn" class="animated-button">Calculate Love</button>
+                </div>
+                <div id="loveResult" class="result-area hidden"></div>
+            `;
+
+            document.getElementById('calculateLoveBtn').addEventListener('click', () => {
+                playSound(clickSound);
+                const name1 = document.getElementById('name1').value.trim();
+                const name2 = document.getElementById('name2').value.trim();
+                const resultDiv = document.getElementById('loveResult');
+
+                if (!name1 || !name2) {
+                    resultDiv.innerHTML = `<p>Please enter both names!</p>`;
+                    resultDiv.classList.remove('hidden');
+                    return;
+                }
+
+                // Simple, fun algorithm (not scientific!)
+                const combinedNames = (name1 + name2).toLowerCase();
+                let score = 0;
+                for (let i = 0; i < combinedNames.length; i++) {
+                    score = (score + combinedNames.charCodeAt(i) * (i + 1)) % 101; // Keep score between 0-100
+                }
+                 // Make it feel more "random" and less predictable, boost lower scores
+                 score = Math.floor(40 + (score * 60 / 100)); // Map 0-100 to 40-100 range
+
+                resultDiv.innerHTML = `
+                    <p>Calculating the sparks between ${name1} and ${name2}...</p>
+                    <div class="love-progress-container">
+                        <div class="love-progress-bar" id="loveProgressBar"><span id="progressText"></span></div>
+                    </div>
+                `;
+                resultDiv.classList.remove('hidden');
+
+                // Animate progress bar
+                setTimeout(() => {
+                    const progressBar = document.getElementById('loveProgressBar');
+                    const progressText = document.getElementById('progressText');
+                    progressBar.style.width = `${score}%`;
+                    progressText.textContent = `${score}%`;
+                    progressText.style.opacity = '1';
+                    playSound(successSound);
+                }, 100); // Short delay for visual effect
+            });
+        }
+
+        // 2. Name Compatibility Test
+        function renderNameCompatibility() {
+             toolDisplay.innerHTML = `
+                <h2>Name Compatibility Test</h2>
+                <div class="form-group">
+                    <label for="compName1">Your Name:</label>
+                    <input type="text" id="compName1" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="compName2">Partner's Name:</label>
+                    <input type="text" id="compName2" placeholder="Enter partner's name">
+                </div>
+                <div class="text-center">
+                    <button id="checkCompatibilityBtn" class="animated-button">Check Compatibility</button>
+                </div>
+                <div id="compatibilityResult" class="result-area hidden"></div>
+            `;
+
+            document.getElementById('checkCompatibilityBtn').addEventListener('click', () => {
+                playSound(clickSound);
+                const name1 = document.getElementById('compName1').value.trim();
+                const name2 = document.getElementById('compName2').value.trim();
+                const resultDiv = document.getElementById('compatibilityResult');
+
+                if (!name1 || !name2) {
+                     resultDiv.innerHTML = `<p>Please enter both names!</p>`;
+                     resultDiv.classList.remove('hidden');
+                     return;
+                }
+
+                 // Simple algorithm based on shared letters & vowels
+                 const n1Lower = name1.toLowerCase();
+                 const n2Lower = name2.toLowerCase();
+                 let score = 0;
+                 const vowels = "aeiou";
+
+                 // Shared letters bonus
+                 for (let char of new Set(n1Lower)) { // Use Set to count each letter once
+                    if (n2Lower.includes(char)) {
+                        score += vowels.includes(char) ? 15 : 10;
+                    }
+                 }
+                 // Length difference penalty (slight)
+                 score -= Math.abs(n1Lower.length - n2Lower.length) * 2;
+
+                 // Normalize to 0-100 (approx)
+                 score = Math.max(0, Math.min(100, Math.floor(score * 1.5) + 30)); // Base score + scaling
+
+                 let emoji = "❓";
+                 let message = "";
+
+                 if (score > 85) {
+                     emoji = "💖"; message = "Wow! Your names vibe together like a perfect harmony! Soulmate potential! ✨";
+                 } else if (score > 70) {
+                     emoji = "😍"; message = "A truly wonderful connection! Your names suggest a beautiful and strong bond. 🥰";
+                 } else if (score > 50) {
+                     emoji = "😊"; message = "Good compatibility! There's definite potential for something sweet and lasting. Keep nurturing it! 🌱";
+                 } else if (score > 30) {
+                     emoji = "🤔"; message = "An interesting mix! Like opposites attracting, your differences could create sparks! 🔥";
+                 } else {
+                     emoji = "😅"; message = "Hmm, the names aren't a typical match, but love works in mysterious ways! Focus on what truly connects you. 💪";
+                 }
+
+                 resultDiv.innerHTML = `
+                    <p>Compatibility Score for ${name1} & ${name2}:</p>
+                    <strong style="font-size: 2.5rem;">${emoji} ${score}%</strong>
+                    <p>${message}</p>
+                 `;
+                 resultDiv.classList.remove('hidden');
+                 playSound(successSound);
+            });
+        }
+
+        // 3. Zodiac Love Match
+        function renderZodiacMatch() {
+            const zodiacSigns = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+            let optionsHtml = zodiacSigns.map(sign => `<option value="${sign}">${sign}</option>`).join('');
+
+            toolDisplay.innerHTML = `
+                <h2>Zodiac Love Match</h2>
+                <div class="form-group">
+                    <label for="zodiac1">Your Zodiac Sign:</label>
+                    <select id="zodiac1">${optionsHtml}</select>
+                </div>
+                <div class="form-group">
+                    <label for="zodiac2">Partner's Zodiac Sign:</label>
+                    <select id="zodiac2">${optionsHtml}</select>
+                </div>
+                <div class="text-center">
+                    <button id="matchZodiacBtn" class="animated-button">Find Match Potential</button>
+                </div>
+                <div id="zodiacResult" class="result-area hidden"></div>
+            `;
+
+             document.getElementById('matchZodiacBtn').addEventListener('click', () => {
+                playSound(clickSound);
+                const sign1 = document.getElementById('zodiac1').value;
+                const sign2 = document.getElementById('zodiac2').value;
+                const resultDiv = document.getElementById('zodiacResult');
+
+                const compatibility = getZodiacCompatibility(sign1, sign2); // Fetch data from helper
+
+                resultDiv.innerHTML = `
+                    <p><strong>${sign1} & ${sign2}</strong></p>
+                    <p><strong>Potential:</strong> ${compatibility.potential}</p>
+                    <p><strong>Tips:</strong> ${compatibility.tips}</p>
+                `;
+                resultDiv.classList.remove('hidden');
+                playSound(successSound);
+             });
+        }
+
+        // Helper for Zodiac Compatibility (Simplified)
+        function getZodiacCompatibility(sign1, sign2) {
+             // Basic compatibility matrix (example, can be expanded)
+             // This is highly simplified for entertainment!
+             const matrix = {
+                 "Aries": { "Leo": "High 🔥", "Sagittarius": "High 🔥", "Gemini": "Good 😊", "Aquarius": "Good 😊", "Libra": "Challenging 🤔", "Cancer": "Low 😥" },
+                 "Taurus": { "Virgo": "High 🌱", "Capricorn": "High 🌱", "Cancer": "Good 😊", "Pisces": "Good 😊", "Leo": "Challenging 🤔", "Aquarius": "Low 😥" },
+                 "Gemini": { "Libra": "High 💨", "Aquarius": "High 💨", "Aries": "Good 😊", "Leo": "Good 😊", "Virgo": "Challenging 🤔", "Pisces": "Low 😥" },
+                 "Cancer": { "Scorpio": "High 💧", "Pisces": "High 💧", "Taurus": "Good 😊", "Virgo": "Good 😊", "Aries": "Challenging 🤔", "Libra": "Low 😥" },
+                 "Leo": { "Aries": "High 🔥", "Sagittarius": "High 🔥", "Gemini": "Good 😊", "Libra": "Good 😊", "Taurus": "Challenging 🤔", "Scorpio": "Low 😥" },
+                 "Virgo": { "Taurus": "High 🌱", "Capricorn": "High 🌱", "Cancer": "Good 😊", "Scorpio": "Good 😊", "Gemini": "Challenging 🤔", "Sagittarius": "Low 😥" },
+                 "Libra": { "Gemini": "High 💨", "Aquarius": "High 💨", "Leo": "Good 😊", "Sagittarius": "Good 😊", "Cancer": "Challenging 🤔", "Capricorn": "Low 😥" },
+                 "Scorpio": { "Cancer": "High 💧", "Pisces": "High 💧", "Virgo": "Good 😊", "Capricorn": "Good 😊", "Leo": "Challenging 🤔", "Aquarius": "Low 😥" },
+                 "Sagittarius": { "Aries": "High 🔥", "Leo": "High 🔥", "Libra": "Good 😊", "Aquarius": "Good 😊", "Virgo": "Challenging 🤔", "Pisces": "Low 😥" },
+                 "Capricorn": { "Taurus": "High 🌱", "Virgo": "High 🌱", "Scorpio": "Good 😊", "Pisces": "Good 😊", "Aries": "Challenging 🤔", "Libra": "Low 😥" },
+                 "Aquarius": { "Gemini": "High 💨", "Libra": "High 💨", "Aries": "Good 😊", "Sagittarius": "Good 😊", "Taurus": "Challenging 🤔", "Scorpio": "Low 😥" },
+                 "Pisces": { "Cancer": "High 💧", "Scorpio": "High 💧", "Taurus": "Good 😊", "Capricorn": "Good 😊", "Gemini": "Challenging 🤔", "Sagittarius": "Low 😥" }
+             };
+
+             const potential = matrix[sign1]?.[sign2] || matrix[sign2]?.[sign1] || "Average 🙂"; // Default if not found or same sign
+
+             // Generic tips based on potential
+             let tips = "";
+             if (potential.includes("High")) tips = "Nurture this strong connection with open communication and shared dreams.";
+             else if (potential.includes("Good")) tips = "Build on your common ground, appreciate your differences, and enjoy the journey.";
+             else if (potential.includes("Average")) tips = "Effort and understanding are key. Focus on what brings you together.";
+             else if (potential.includes("Challenging")) tips = "Patience and compromise will be important. Learn from each other's perspectives.";
+             else tips = "Remember, astrology is fun, but true love depends on mutual respect, effort, and connection!";
+
+             return { potential, tips };
+        }
+
+        // 4. Birthday Match Analyzer
+        function renderBirthdayMatch() {
+            toolDisplay.innerHTML = `
+                <h2>Birthday Match Analyzer</h2>
+                <div class="form-group">
+                    <label for="bday1">Your Birthday:</label>
+                    <input type="date" id="bday1">
+                </div>
+                <div class="form-group">
+                    <label for="bday2">Partner's Birthday:</label>
+                    <input type="date" id="bday2">
+                </div>
+                <div class="text-center">
+                    <button id="analyzeBdayBtn" class="animated-button">Analyze Match</button>
+                </div>
+                <div id="bdayResult" class="result-area hidden"></div>
+            `;
+
+            document.getElementById('analyzeBdayBtn').addEventListener('click', () => {
+                 playSound(clickSound);
+                 const bday1Str = document.getElementById('bday1').value;
+                 const bday2Str = document.getElementById('bday2').value;
+                 const resultDiv = document.getElementById('bdayResult');
+
+                 if (!bday1Str || !bday2Str) {
+                    resultDiv.innerHTML = `<p>Please select both birthdays!</p>`;
+                    resultDiv.classList.remove('hidden');
+                    return;
+                 }
+
+                 const date1 = new Date(bday1Str);
+                 const date2 = new Date(bday2Str);
+
+                 // Simple "Life Path Number" calculation (Numerology-lite)
+                 const getLifePath = (date) => {
+                     if (!date || isNaN(date.getTime())) return 0; // Handle invalid date
+                     const str = `${date.getDate()}${date.getMonth() + 1}${date.getFullYear()}`;
+                     let sum = str.split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+                     while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) { // Reduce until single digit or master number
+                         sum = String(sum).split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+                     }
+                     return sum;
+                 };
+
+                 const path1 = getLifePath(date1);
+                 const path2 = getLifePath(date2);
+
+                 // Simple "Emotional Sync" based on month difference
+                 const monthDiff = Math.abs(date1.getMonth() - date2.getMonth());
+                 let emotionalSyncScore = 100 - Math.min(monthDiff, 12 - monthDiff) * 10; // Closer months = higher score
+
+                  // Combine scores (very basic)
+                  let overallScore = Math.round((emotionalSyncScore + (100 - Math.abs(path1 - path2) * 5)) / 2); // Average sync and path compatibility
+                  overallScore = Math.max(40, Math.min(99, overallScore)); // Keep it reasonable
+
+                  resultDiv.innerHTML = `
+                    <p>Analyzing the cosmic connection...</p>
+                    <p>Your Life Path Numbers: <strong>${path1}</strong> & <strong>${path2}</strong></p>
+                    <p>Emotional Sync Score (Approx): <strong>${emotionalSyncScore}%</strong></p>
+                    <p>Overall Birthday Harmony: <strong>${overallScore}%</strong> ❤️</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;">(Remember, this is just for fun! True connection goes beyond dates.)</p>
+                  `;
+                  resultDiv.classList.remove('hidden');
+                  playSound(successSound);
+            });
+        }
+
+        // 5. Anniversary Countdown
+        let countdownInterval = null; // Store interval ID
+        function renderAnniversaryCountdown() {
+             // Clear any existing interval
+             if (countdownInterval) clearInterval(countdownInterval);
+
+             const savedDate = localStorage.getItem('anniversaryDate');
+             toolDisplay.innerHTML = `
+                <h2>Anniversary Countdown</h2>
+                <div class="form-group">
+                    <label for="anniversaryDate">Your Special Date (Anniversary, First Date, etc.):</label>
+                    <input type="date" id="anniversaryDate" value="${savedDate || ''}">
+                </div>
+                <div class="text-center">
+                    <button id="startCountdownBtn" class="animated-button">Start/Update Countdown</button>
+                </div>
+                <div id="countdownResult" class="result-area ${savedDate ? '' : 'hidden'}">
+                    </div>
+            `;
+             // Initial calculation if date exists
+             const resultDivInitial = document.getElementById('countdownResult');
+             if(savedDate) {
+                 resultDivInitial.innerHTML = calculateAnniversary(savedDate);
+             }
+
+
+             document.getElementById('startCountdownBtn').addEventListener('click', () => {
+                 playSound(clickSound);
+                 const dateInput = document.getElementById('anniversaryDate');
+                 const resultDiv = document.getElementById('countdownResult');
+                 if (dateInput.value) {
+                     localStorage.setItem('anniversaryDate', dateInput.value);
+                     const newDate = dateInput.value;
+                     resultDiv.innerHTML = calculateAnniversary(newDate); // Calculate immediately
+                     resultDiv.classList.remove('hidden');
+                     startCountdownTimer(newDate); // Start the timer
+                     playSound(successSound);
+                 } else {
+                     resultDiv.innerHTML = `<p>Please select your special date!</p>`;
+                     resultDiv.classList.remove('hidden');
+                     if (countdownInterval) clearInterval(countdownInterval); // Stop timer if date removed
+                 }
+             });
+
+             // Start timer immediately if date is loaded
+             if (savedDate) {
+                 startCountdownTimer(savedDate);
+             }
+        }
+
+         function startCountdownTimer(dateString) {
+             if (countdownInterval) clearInterval(countdownInterval); // Clear previous interval
+              const resultDiv = document.getElementById('countdownResult');
+              if (!resultDiv) return; // Exit if element not found
+
+             // Function to update timer display
+             const updateTimer = () => {
+                 if (document.getElementById('anniversaryDate')) { // Check if element still exists
+                     resultDiv.innerHTML = calculateAnniversary(dateString);
+                 } else {
+                     clearInterval(countdownInterval); // Stop if the tool is no longer displayed
+                 }
+             };
+
+             updateTimer(); // Update immediately
+             countdownInterval = setInterval(updateTimer, 1000); // Update every second
+         }
+
+         function calculateAnniversary(dateString) {
+            const targetDate = new Date(dateString);
+            const now = new Date();
+
+             if (isNaN(targetDate.getTime())) {
+                 return "<p>Invalid date selected.</p>";
+             }
+
+            const diffTime = now - targetDate; // Difference in milliseconds
+
+            if (diffTime < 0) {
+                 // Calculate time until the future date
+                 const timeToDate = targetDate - now;
+                 const totalSecondsLeft = Math.floor(timeToDate / 1000);
+                 const daysLeft = Math.floor(totalSecondsLeft / (60 * 60 * 24));
+                 const hoursLeft = Math.floor((totalSecondsLeft % (60 * 60 * 24)) / (60 * 60));
+                 const minutesLeft = Math.floor((totalSecondsLeft % (60 * 60)) / 60);
+                 const secondsLeft = totalSecondsLeft % 60;
+                 return `<p>Counting down to your special date!</p>
+                         <p><strong>${daysLeft}</strong> days, <strong>${hoursLeft}</strong> hours,</p>
+                         <p><strong>${minutesLeft}</strong> minutes, <strong>${secondsLeft}</strong> seconds left!</p>`;
+            }
+
+            // --- Calculation for time passed ---
+            // Accurate calculation considering leap years for years/months/days is complex.
+            // Using approximations for display.
+
+            let years = now.getFullYear() - targetDate.getFullYear();
+            let months = now.getMonth() - targetDate.getMonth();
+            let days = now.getDate() - targetDate.getDate();
+
+            if (days < 0) {
+                months--;
+                // Calculate days remaining in previous month
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Total days calculation remains simpler
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+            // Time calculation
+            const totalSeconds = Math.floor(diffTime / 1000);
+            const seconds = totalSeconds % 60;
+            const totalMinutes = Math.floor(totalSeconds / 60);
+            const minutes = totalMinutes % 60;
+            const totalHours = Math.floor(totalMinutes / 60);
+            const hours = totalHours % 24; // Hours within the current day difference
+
+
+             return `
+                 <p>You've been together for approximately:</p>
+                 <p><strong>${years}</strong> years, <strong>${months}</strong> months, and <strong>${days}</strong> days</p>
+                 <p style="font-size: 1.5rem; margin-top: 10px;">Total: ${diffDays.toLocaleString()} days</p>
+                 <p style="font-size: 0.9em; color: #555;">That's approx ${totalHours.toLocaleString()} hours, ${totalMinutes.toLocaleString()} minutes, and ${totalSeconds.toLocaleString()} seconds of love!</p>
+                 <p style="margin-top: 10px;">Congratulations! 🎉</p>
+             `;
+         }
+
+        // 6. Love Quotes of the Day
+        function renderLoveQuotes() {
+            const quotes = [
+                 { quote: "The best thing to hold onto in life is each other.", author: "Audrey Hepburn" },
+                 { quote: "To love and be loved is to feel the sun from both sides.", author: "David Viscott" },
+                 { quote: "Love isn't something you find. Love is something that finds you.", author: "Loretta Young" },
+                 { quote: "Being deeply loved by someone gives you strength, while loving someone deeply gives you courage.", author: "Lao Tzu" },
+                 { quote: "You know you're in love when you can't fall asleep because reality is finally better than your dreams.", author: "Dr. Seuss" },
+                 { quote: "Love is composed of a single soul inhabiting two bodies.", author: "Aristotle" },
+                 { quote: "The greatest happiness of life is the conviction that we are loved; loved for ourselves, or rather, loved in spite of ourselves.", author: "Victor Hugo" },
+                 { quote: "I swear I couldn't love you more than I do right now, and yet I know I will tomorrow.", author: "Leo Christopher" },
+                 { quote: "If I know what love is, it is because of you.", author: "Herman Hesse" },
+                 { quote: "Love does not consist of gazing at each other, but in looking outward together in the same direction.", author: "Antoine de Saint-Exupéry"}
+            ];
+
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const selectedQuote = quotes[randomIndex];
+
+            toolDisplay.innerHTML = `
+                <h2>Love Quote of the Day</h2>
+                <div class="result-area" style="text-align: center;">
+                    <p style="font-size: 1.3em; font-style: italic;">"${selectedQuote.quote}"</p>
+                    <p style="margin-top: 1rem;"><em>- ${selectedQuote.author}</em></p>
+                </div>
+                <div class="text-center" style="margin-top: 1.5rem;">
+                     <button id="newQuoteBtn" class="animated-button">Get Another Quote</button>
+                 </div>
+            `;
+
+            document.getElementById('newQuoteBtn').addEventListener('click', () => {
+                playSound(clickSound);
+                renderLoveQuotes(); // Re-render to get a new quote
+            });
+        }
+
+        // 7. Love Memory Timeline
+        function renderMemoryTimeline() {
+             const savedTimeline = JSON.parse(localStorage.getItem('loveTimeline') || '[]');
+
+             toolDisplay.innerHTML = `
+                <h2>Our Love Story Timeline</h2>
+                <div class="form-group">
+                    <label for="timelineDate">Date of Memory:</label>
+                    <input type="date" id="timelineDate">
+                </div>
+                <div class="form-group">
+                    <label for="timelineEvent">Memory / Event:</label>
+                    <input type="text" id="timelineEvent" placeholder="e.g., Our first date, Got engaged!">
+                </div>
+                <div class="text-center">
+                    <button id="addTimelineItemBtn" class="animated-button">Add to Timeline</button>
+                     <button id="clearTimelineBtn" class="animated-button" style="background-color: var(--accent-color); margin-left: 10px;">Clear Timeline</button>
+                </div>
+                <div id="timelineDisplay" style="margin-top: 2rem;">
+                    <ul class="timeline">
+                        ${generateTimelineHtml(savedTimeline)}
+                    </ul>
+                </div>
+            `;
+
+             document.getElementById('addTimelineItemBtn').addEventListener('click', addTimelineItem);
+             document.getElementById('clearTimelineBtn').addEventListener('click', clearTimeline);
+        }
+
+         function generateTimelineHtml(timelineData) {
+             // Sort by date before displaying
+             timelineData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+             if (timelineData.length === 0) {
+                 return '<li><p style="padding-left: 40px;">Your love story timeline is empty. Add your first memory!</p></li>';
+             }
+
+             return timelineData.map((item, index) => {
+                 let dateString = "Invalid Date";
+                 try {
+                    // Attempt to format the date, handle potential invalid date strings
+                    const dateObj = new Date(item.date + 'T00:00:00'); // Ensure parsing as local date, not UTC
+                    if (!isNaN(dateObj.getTime())) {
+                       dateString = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                    }
+                 } catch (e) { console.error("Error parsing timeline date:", item.date, e); }
+
+                 // Sanitize event text slightly (basic example)
+                 const eventText = item.event.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+                 return `
+                    <li class="timeline-item">
+                        <div class="timeline-icon">❤️</div>
+                        <div class="timeline-content">
+                            <h3>${dateString}</h3>
+                            <p>${eventText}</p>
+                        </div>
+                    </li>`;
+                }).join('');
+         }
+
+         function addTimelineItem() {
+             playSound(clickSound);
+             const dateInput = document.getElementById('timelineDate');
+             const eventInput = document.getElementById('timelineEvent');
+             const date = dateInput.value;
+             const event = eventInput.value.trim();
+
+             if (!date || !event) {
+                 alert('Please provide both a date and an event description.');
+                 return;
+             }
+              // Basic validation for date format (YYYY-MM-DD)
+              if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+                  alert('Please use the YYYY-MM-DD format for the date.');
+                  return;
+              }
+
+
+             const currentTimeline = JSON.parse(localStorage.getItem('loveTimeline') || '[]');
+             currentTimeline.push({ date, event });
+             localStorage.setItem('loveTimeline', JSON.stringify(currentTimeline));
+
+             // Re-render the timeline part
+             const timelineUl = document.querySelector('#timelineDisplay ul.timeline');
+              if (timelineUl) { // Check if element exists before updating
+                   timelineUl.innerHTML = generateTimelineHtml(currentTimeline);
+              }
+
+
+             // Clear inputs
+             dateInput.value = '';
+             eventInput.value = '';
+             playSound(successSound);
+         }
+
+         function clearTimeline() {
+             if (confirm('Are you sure you want to clear the entire timeline? This cannot be undone.')) {
+                 playSound(clickSound);
+                 localStorage.removeItem('loveTimeline');
+                 const timelineUl = document.querySelector('#timelineDisplay ul.timeline');
+                 if (timelineUl) { // Check if element exists before updating
+                    timelineUl.innerHTML = generateTimelineHtml([]);
+                 }
+                 playSound(successSound); // Or a different sound for deletion
+             }
+         }
+
+        // 8. Couple Nickname Generator
+        function renderNicknameGenerator() {
+            toolDisplay.innerHTML = `
+                <h2>Couple Nickname Generator</h2>
+                <div class="form-group">
+                    <label for="nickName1">First Name:</label>
+                    <input type="text" id="nickName1" placeholder="e.g., Alex">
+                </div>
+                <div class="form-group">
+                    <label for="nickName2">Second Name:</label>
+                    <input type="text" id="nickName2" placeholder="e.g., Olivia">
+                </div>
+                <div class="text-center">
+                    <button id="generateNicknameBtn" class="animated-button">Generate Nicknames</button>
+                </div>
+                <div id="nicknameResult" class="result-area hidden"></div>
+            `;
+
+             document.getElementById('generateNicknameBtn').addEventListener('click', () => {
+                 playSound(clickSound);
+                 const name1 = document.getElementById('nickName1').value.trim();
+                 const name2 = document.getElementById('nickName2').value.trim();
+                 const resultDiv = document.getElementById('nicknameResult');
+
+                 if (!name1 || !name2) {
+                     resultDiv.innerHTML = `<p>Please enter both names!</p>`;
+                     resultDiv.classList.remove('hidden');
+                     return;
+                 }
+
+                 const nicknames = generateNicknames(name1, name2);
+                  if (nicknames.length === 0) {
+                     resultDiv.innerHTML = `<p>Couldn't generate unique nicknames. Try slightly longer names!</p>`;
+                  } else {
+                     resultDiv.innerHTML = `
+                        <p>Cute Nicknames for ${name1} & ${name2}:</p>
+                        <ul style="list-style: none; padding: 0; margin-top: 10px;">
+                            ${nicknames.map(n => `<li style="font-size: 1.2em; margin-bottom: 5px;">💕 ${n}</li>`).join('')}
+                        </ul>
+                     `;
+                  }
+                 resultDiv.classList.remove('hidden');
+                 playSound(successSound);
+             });
+        }
+
+        // Helper for Nickname Generation
+        function generateNicknames(name1, name2) {
+             const n1 = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
+             const n2 = name2.charAt(0).toUpperCase() + name2.slice(1).toLowerCase();
+             const results = new Set(); // Use Set to avoid duplicates
+
+              // Ensure names have enough length for slicing
+              const n1Mid = Math.ceil(n1.length / 2);
+              const n2Mid = Math.ceil(n2.length / 2);
+              const n1FloorMid = Math.floor(n1.length / 2);
+              const n2FloorMid = Math.floor(n2.length / 2);
+
+             // Simple Mashups
+             if (n1.length > 1 && n2.length > 1) {
+                 if (n1Mid > 0 && n2FloorMid > 0 && n2.length - n2FloorMid > 0) results.add(n1.slice(0, n1Mid) + n2.slice(n2FloorMid));
+                 if (n2Mid > 0 && n1FloorMid > 0 && n1.length - n1FloorMid > 0) results.add(n2.slice(0, n2Mid) + n1.slice(n1FloorMid));
+             }
+              if (n1.length > 2 && n2.length > 2) {
+                  results.add(n1.slice(0, 2) + n2.slice(-2));
+                  results.add(n2.slice(0, 2) + n1.slice(-2));
+              }
+              if (n1.length > 0 && n2.length > 0) {
+                  results.add(n1.charAt(0) + n2);
+                  results.add(n2.charAt(0) + n1);
+              }
+
+
+             // Filter out results that are identical to original names
+             const finalResults = Array.from(results).filter(nick => nick.toLowerCase() !== n1.toLowerCase() && nick.toLowerCase() !== n2.toLowerCase() && nick.length > 1);
+
+
+             // Return a few options (unique and reasonable length)
+             return finalResults.filter(nick => nick.length < (n1.length + n2.length -1) && nick.length > 2).slice(0, 4); // Limit to 4 suggestions, avoid just concat, ensure some length
+        }
+
+
+        // 9. Romantic Message Generator
+        function renderMessageGenerator() {
+            toolDisplay.innerHTML = `
+                <h2>Romantic Message Generator</h2>
+                <p class="text-center" style="margin-bottom: 1.5rem;">Need inspiration? Generate a heartfelt message!</p>
+                <div class="text-center">
+                    <button id="generateMessageBtn" class="animated-button">Generate Message</button>
+                </div>
+                <div id="messageResult" class="result-area hidden" style="text-align: left; font-style: italic;"></div>
+            `;
+
+             document.getElementById('generateMessageBtn').addEventListener('click', () => {
+                 playSound(clickSound);
+                 const resultDiv = document.getElementById('messageResult');
+                 resultDiv.innerHTML = `<p>"${generateRomanticMessage()}"</p>`;
+                 resultDiv.classList.remove('hidden');
+                 playSound(successSound);
+             });
+        }
+
+        // Helper for Message Generation
+        function generateRomanticMessage() {
+            const parts1 = ["My dearest", "To my love", "Hey gorgeous", "My sunshine", "To the one who holds my heart", "Thinking of you"];
+            const parts2 = ["just wanted to say I love you.", "you make my world brighter.", "can't stop smiling because of you.", "my day is better with you in it.", "sending you all my love right now."];
+            const parts3 = ["You mean everything to me.", "You truly make everything better.", "I cherish every single moment with you.", "Can't wait until I see you again.", "You are simply amazing, always remember that."];
+            const parts4 = ["💖", "🥰", "😘", "✨", "🌹", "❤️"];
+
+            const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+            // Combine parts for variety
+            const structureType = Math.random();
+            if (structureType < 0.4) {
+                 return `${rand(parts1)}, ${rand(parts2)} ${rand(parts4)}`;
+            } else if (structureType < 0.8) {
+                 return `${rand(parts1)}. ${rand(parts3)} ${rand(parts4)}`;
+            } else {
+                 return `${rand(parts2)}. ${rand(parts3)} ${rand(parts4)}`;
+            }
+        }
+
+        // 10. Future Baby Name Combiner
+        function renderBabyNameCombiner() {
+            toolDisplay.innerHTML = `
+                <h2>Future Baby Name Combiner</h2>
+                 <p class="text-center" style="margin-bottom: 1.5rem;">Just for fun! Combine names to see potential baby names.</p>
+                <div class="form-group">
+                    <label for="babyName1">Parent 1 Name:</label>
+                    <input type="text" id="babyName1" placeholder="e.g., Rohan">
+                </div>
+                <div class="form-group">
+                    <label for="babyName2">Parent 2 Name:</label>
+                    <input type="text" id="babyName2" placeholder="e.g., Monika">
+                </div>
+                <div class="text-center">
+                    <button id="generateBabyNameBtn" class="animated-button">Suggest Baby Names</button>
+                </div>
+                <div id="babyNameResult" class="result-area hidden"></div>
+            `;
+
+             document.getElementById('generateBabyNameBtn').addEventListener('click', () => {
+                 playSound(clickSound);
+                 const name1 = document.getElementById('babyName1').value.trim();
+                 const name2 = document.getElementById('babyName2').value.trim();
+                 const resultDiv = document.getElementById('babyNameResult');
+
+                 if (!name1 || !name2) {
+                     resultDiv.innerHTML = `<p>Please enter both parent names!</p>`;
+                     resultDiv.classList.remove('hidden');
+                     return;
+                 }
+
+                 const babyNames = generateBabyNames(name1, name2);
+                  if (babyNames.length === 0) {
+                     resultDiv.innerHTML = `<p>Couldn't generate unique name ideas. Try different or longer names!</p>`;
+                  } else {
+                     resultDiv.innerHTML = `
+                        <p>Cute Name Ideas Inspired by ${name1} & ${name2}:</p>
+                        <ul style="list-style: none; padding: 0; margin-top: 10px;">
+                            ${babyNames.map(n => `<li style="font-size: 1.2em; margin-bottom: 5px;">🍼 ${n}</li>`).join('')}
+                        </ul>
+                        <p style="font-size: 0.8em; margin-top: 10px;">(These are just creative combinations!)</p>
+                     `;
+                  }
+                 resultDiv.classList.remove('hidden');
+                 playSound(successSound);
+             });
+        }
+
+         // Helper for Baby Name Generation (Similar to Nickname, slightly different combinations)
+         function generateBabyNames(name1, name2) {
+             const n1 = name1.charAt(0).toUpperCase() + name1.slice(1).toLowerCase();
+             const n2 = name2.charAt(0).toUpperCase() + name2.slice(1).toLowerCase();
+             const results = new Set();
+
+              // Ensure names have enough length for slicing
+              const n1Mid = Math.ceil(n1.length / 2);
+              const n2Mid = Math.ceil(n2.length / 2);
+              const n1Min2 = Math.max(0, n1.length - 2);
+              const n2Min2 = Math.max(0, n2.length - 2);
+
+
+             // Mix beginning/endings
+             if (n1.length > 2 && n2.length > 2) {
+                results.add(n1.slice(0, n1Mid) + n2.slice(n2Mid)); // First halves
+                results.add(n2.slice(0, n2Mid) + n1.slice(n1Mid)); // First halves swapped
+                results.add(n1.slice(0, 2) + n2.slice(2)); // First 2 + rest
+                results.add(n2.slice(0, 2) + n1.slice(2)); // First 2 + rest swapped
+                results.add(n1.slice(0, 3) + n2.slice(-2)); // First 3 + last 2
+                results.add(n2.slice(0, 3) + n1.slice(-2)); // First 3 + last 2 swapped
+             }
+             // Simple first+last part
+             if (n1.length > 1 && n2.length > 1) {
+                 if (n2Mid < n2.length) results.add(n1.charAt(0) + n2.slice(n2Mid));
+                 if (n1Mid < n1.length) results.add(n2.charAt(0) + n1.slice(n1Mid));
+             }
+              // Vowel beginnings / endings mix (simple example)
+              const vowels = "aeiou";
+              if (n1.length > 2 && n2.length > 2) {
+                  if (vowels.includes(n1[0].toLowerCase()) && !vowels.includes(n2.slice(-1).toLowerCase())) {
+                      results.add(n1.slice(0, n1Mid) + n2.slice(-n2Min2));
+                  }
+                   if (vowels.includes(n2[0].toLowerCase()) && !vowels.includes(n1.slice(-1).toLowerCase())) {
+                      results.add(n2.slice(0, n2Mid) + n1.slice(-n1Min2));
+                  }
+              }
+
+
+             // Filter out names identical to parents and very short names
+             const finalResults = Array.from(results)
+                                    .filter(name => name.toLowerCase() !== n1.toLowerCase() && name.toLowerCase() !== n2.toLowerCase() && name.length > 2);
+
+             // Shuffle results for variety
+              for (let i = finalResults.length - 1; i > 0; i--) {
+                  const j = Math.floor(Math.random() * (i + 1));
+                  [finalResults[i], finalResults[j]] = [finalResults[j], finalResults[i]];
+              }
+
+             return finalResults.slice(0, 5); // Limit suggestions
+         }
+
+
+        // 11. Love Poem Writer (Mini)
+        function renderPoemWriter() {
+            toolDisplay.innerHTML = `
+                <h2>Mini Love Poem Writer</h2>
+                 <div class="form-group">
+                    <label for="poemName1">Your Name (Optional):</label>
+                    <input type="text" id="poemName1" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="poemName2">Partner's Name (Optional):</label>
+                    <input type="text" id="poemName2" placeholder="Enter partner's name">
+                </div>
+                 <div class="text-center">
+                    <button id="writePoemBtn" class="animated-button">Write Poem</button>
+                </div>
+                <div id="poemResult" class="result-area hidden" style="text-align: center; white-space: pre-line;"></div>
+            `;
+
+            document.getElementById('writePoemBtn').addEventListener('click', () => {
+                playSound(clickSound);
+                const name1 = document.getElementById('poemName1').value.trim() || "My Heart"; // Default if empty
+                const name2 = document.getElementById('poemName2').value.trim() || "My Dearest"; // Default if empty
+                const resultDiv = document.getElementById('poemResult');
+
+                const poem = generateLovePoem(name1, name2);
+                resultDiv.innerHTML = `<p>${poem}</p>`;
+                resultDiv.classList.remove('hidden');
+                playSound(successSound);
+            });
+        }
+
+        // Helper for Poem Generation
+        function generateLovePoem(name1, name2) {
+             const name1Capped = name1.charAt(0).toUpperCase() + name1.slice(1);
+             const name2Capped = name2.charAt(0).toUpperCase() + name2.slice(1);
+
+             const line1 = [ `To ${name2Capped}, my shining star,`, `My dearest ${name2Capped}, near or far,`, `Like dawn's first light, ${name2Capped}, you appear,`];
+             const line2 = [ `You chase away my doubt and fear.`, `My love for you is ever clear.`, `Holding you, my love, so dear.`];
+             const line3 = [ `From ${name1Capped}'s heart, these words take flight,`, `My soul connects with yours so bright,`, `With every beat, ${name1Capped}'s love rings true,`];
+             const line4 = [ `Forever is my dream with you.`, `In all the world, there's only you.`, `My love, my life, begins with you.`];
+
+             const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+             return `${rand(line1)}\n${rand(line2)}\n${rand(line3)}\n${rand(line4)}`;
+        }
+
+
+        // 12. Date Night Idea Generator
+        function renderDateNightGenerator() {
+             toolDisplay.innerHTML = `
+                <h2>Date Night Idea Generator</h2>
+                <p class="text-center" style="margin-bottom: 1.5rem;">Spice up your romance! Get a fun date idea.</p>
+                <div class="text-center">
+                    <button id="generateDateIdeaBtn" class="animated-button">Suggest a Date</button>
+                </div>
+                <div id="dateIdeaResult" class="result-area hidden"></div>
+            `;
+
+             document.getElementById('generateDateIdeaBtn').addEventListener('click', () => {
+                 playSound(clickSound);
+                 const resultDiv = document.getElementById('dateIdeaResult');
+                 resultDiv.innerHTML = `<p><strong>Date Idea:</strong> ${generateDateIdea()} 🥂</p>`;
+                 resultDiv.classList.remove('hidden');
+                 playSound(successSound);
+             });
+        }
+
+         // Helper for Date Ideas
+         function generateDateIdea() {
+             const ideas = [
+                 "Cook a new recipe together at home, maybe something challenging!",
+                 "Go stargazing away from city lights with a blanket and hot cocoa.",
+                 "Have a themed movie night marathon (e.g., 80s classics, favorite director, bad sci-fi).",
+                 "Visit a local museum or art gallery you've never been to before.",
+                 "Go for a scenic hike or bike ride and pack a surprise picnic.",
+                 "Have an indoor picnic in the living room if the weather's bad.",
+                 "Try a competitive couples' board game or puzzle night.",
+                 "Visit an old-school arcade or try laser tag/mini-golf.",
+                 "Go bowling - bonus points for silly team names.",
+                 "Take a fun, beginner-friendly dance class together (salsa, swing?).",
+                 "Volunteer together for a local charity or animal shelter for an afternoon.",
+                 "Build an epic pillow fort in the living room, complete with fairy lights.",
+                 "Go to a local concert, open mic night, or live jazz event.",
+                 "Try wine or craft beer tasting (at a venue or create your own flight at home).",
+                 "Visit a bookstore/library, pick out books for each other to read.",
+                 "Attend a local sports game (even minor league can be fun!).",
+                 "Take a pottery or painting class together.",
+                 "Go fruit picking (seasonal) or visit a farmer's market.",
+                 "Have a 'create your own pizza/taco' night at home.",
+                 "Drive to a nearby town or scenic spot you haven't explored."
+             ];
+             return ideas[Math.floor(Math.random() * ideas.length)];
+         }
+
+
+        // 13. Love Story Builder (Mad Libs Style)
+        function renderLoveStoryBuilder() {
+            toolDisplay.innerHTML = `
+                <h2>Our Wacky Love Story</h2>
+                <p style="margin-bottom: 1rem;">Fill in the blanks to create your unique (and probably silly) love story!</p>
+                <div class="form-group">
+                    <label for="lsNoun1">A Place (e.g., library, moon):</label>
+                    <input type="text" id="lsNoun1" placeholder="Place">
+                </div>
+                 <div class="form-group">
+                    <label for="lsVerb1">Verb ending in -ing (e.g., singing, juggling):</label>
+                    <input type="text" id="lsVerb1" placeholder="Verb (-ing)">
+                </div>
+                 <div class="form-group">
+                    <label for="lsAdj1">Adjective (e.g., sparkly, clumsy):</label>
+                    <input type="text" id="lsAdj1" placeholder="Adjective">
+                </div>
+                 <div class="form-group">
+                    <label for="lsFood1">A Type of Food (plural, e.g., pizzas, broccoli):</label>
+                    <input type="text" id="lsFood1" placeholder="Food (plural)">
+                </div>
+                 <div class="form-group">
+                    <label for="lsAnimal1">An Animal (e.g., penguin, giraffe):</label>
+                    <input type="text" id="lsAnimal1" placeholder="Animal">
+                </div>
+                 <div class="form-group">
+                    <label for="lsAdj2">Another Adjective (e.g., enormous, tiny):</label>
+                    <input type="text" id="lsAdj2" placeholder="Another Adjective">
+                </div>
+                 <div class="form-group">
+                    <label for="lsNoun2">A Silly Noun (e.g., potato, spaceship):</label>
+                    <input type="text" id="lsNoun2" placeholder="Silly Noun">
+                </div>
+                <div class="text-center">
+                    <button id="buildStoryBtn" class="animated-button">Build My Story!</button>
+                </div>
+                <div id="loveStoryResult" class="result-area hidden" style="text-align: left;"></div>
+            `;
+
+             document.getElementById('buildStoryBtn').addEventListener('click', () => {
+                 playSound(clickSound);
+                 const inputs = {
+                    noun1: document.getElementById('lsNoun1').value.trim() || "the park",
+                    verb1: document.getElementById('lsVerb1').value.trim() || "dancing",
+                    adj1: document.getElementById('lsAdj1').value.trim() || "happy",
+                    food1: document.getElementById('lsFood1').value.trim() || "tacos",
+                    animal1: document.getElementById('lsAnimal1').value.trim() || "cat",
+                    adj2: document.getElementById('lsAdj2').value.trim() || "fluffy",
+                    noun2: document.getElementById('lsNoun2').value.trim() || "cloud"
+                 };
+
+                 // Check if all fields are filled (optional, but good practice)
+                 if (!inputs.noun1 || !inputs.verb1 || !inputs.adj1 || !inputs.food1 || !inputs.animal1 || !inputs.adj2 || !inputs.noun2) {
+                     alert("Please fill in all the blanks for the best story!");
+                     return;
+                 }
+
+
+                 const resultDiv = document.getElementById('loveStoryResult');
+
+                 const story = `It all began in a ${inputs.adj1} ${inputs.noun1}. One day, while nervously ${inputs.verb1}, our eyes met across a room filled with ${inputs.food1}. Suddenly, a ${inputs.adj2} ${inputs.animal1} appeared, holding a single ${inputs.noun2}! It offered the ${inputs.noun2} as a sign, and we knew it was meant to be. From that day forward, our love blossomed, fueled by shared laughter and the occasional encounter with that strange ${inputs.animal1}. And they lived ${inputs.adj1}ly ever after! The End. ❤️`;
+
+                 resultDiv.innerHTML = `<p>${story}</p>`;
+                 resultDiv.classList.remove('hidden');
+                 playSound(successSound);
+             });
+        }
+
+        // 14. Relationship Vibes Reader
+        function renderVibesReader() {
+            toolDisplay.innerHTML = `
+                <h2>Relationship Vibes Reader ✨</h2>
+                <p style="margin-bottom: 1rem;">Answer a few fun questions to check your current couple vibe!</p>
+                <div class="form-group">
+                    <label>How often do you make each other genuinely laugh?</label>
+                    <select id="vibeQ1">
+                        <option value="3">Multiple times a day! We're hilarious.</option>
+                        <option value="2">Pretty often, most days.</option>
+                        <option value="1">Sometimes, when we're in the mood.</option>
+                        <option value="0">Rarely these days, things feel serious.</option>
+                    </select>
+                </div>
+                 <div class="form-group">
+                    <label>Your ideal 'do-nothing' weekend together involves:</label>
+                    <select id="vibeQ2">
+                        <option value="3">Cozy PJs, snacks, binge-watching, and cuddles.</option>
+                        <option value="2">Relaxing, maybe some reading, quiet time together.</option>
+                        <option value="1">A mix of shared activities and some personal space.</option>
+                        <option value="0">Mostly doing our own separate things at home.</option>
+                    </select>
+                </div>
+                 <div class="form-group">
+                    <label>When one of you is stressed or upset, the other usually:</label>
+                    <select id="vibeQ3">
+                        <option value="3">Listens actively, offers comfort and support unconditionally.</option>
+                        <option value="2">Gives space if needed but checks in and offers help.</option>
+                        <option value="1">Tries to cheer them up, sometimes gets a bit flustered.</option>
+                        <option value="0">Avoids the situation or sometimes makes it worse unintentionally.</option>
+                    </select>
+                </div>
+                 <div class="form-group">
+                    <label>How often do you express appreciation for each other (small things count)?</label>
+                    <select id="vibeQ4">
+                        <option value="3">Daily! We make it a point.</option>
+                        <option value="2">Fairly often, a few times a week.</option>
+                        <option value="1">Occasionally, on special occasions or when reminded.</option>
+                        <option value="0">Honestly, not very often.</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button id="readVibesBtn" class="animated-button">Read Our Vibe!</button>
+                </div>
+                <div id="vibesResult" class="result-area hidden"></div>
+            `;
+
+             document.getElementById('readVibesBtn').addEventListener('click', () => {
+                 playSound(clickSound);
+                 const q1 = parseInt(document.getElementById('vibeQ1').value);
+                 const q2 = parseInt(document.getElementById('vibeQ2').value);
+                 const q3 = parseInt(document.getElementById('vibeQ3').value);
+                 const q4 = parseInt(document.getElementById('vibeQ4').value); // Added Q4
+                 const resultDiv = document.getElementById('vibesResult');
+                 const totalScore = q1 + q2 + q3 + q4; // Updated total score calculation
+                 const maxScore = 12; // Max possible score (3 * 4 questions)
+
+                 let vibe = "";
+                 let emoji = "🤔";
+
+                  if (totalScore >= 10) {
+                     vibe = "Radiant Connection! ✨💖 You two are deeply connected, supportive, and find joy together effortlessly. Keep shining!";
+                     emoji = "🌟";
+                 } else if (totalScore >= 7) {
+                     vibe = "Sweet Harmony! 😊 Your bond is strong, comfortable, and filled with mutual respect and affection. Keep nurturing it!";
+                     emoji = "🥰";
+                 } else if (totalScore >= 4) {
+                      vibe = "Steady Rhythm. 🌱 A solid foundation is there. Focus on consistent communication and shared quality time to enhance the connection.";
+                      emoji = "👍";
+                 } else {
+                      vibe = "Needs a Tune-Up? 🛠️ Every relationship ebbs and flows. This might be a sign to intentionally reconnect, communicate openly, and rediscover shared joys.";
+                      emoji = "😅";
+                 }
+
+                 resultDiv.innerHTML = `
+                    <p><strong>Vibe Score: ${totalScore}/${maxScore}</strong> ${emoji}</p>
+                    <p>${vibe}</p>
+                    <p style="font-size: 0.8em; margin-top: 10px;">(Just a playful snapshot based on these questions! Honest communication is always key.)</p>
+                 `;
+                 resultDiv.classList.remove('hidden');
+                 playSound(successSound);
+             });
+        }
+
+        // 15. Voice Message Recorder
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioBlob;
+        let audioUrl;
+
+        function renderVoiceRecorder() {
+            // Check for MediaRecorder support
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+                 toolDisplay.innerHTML = `
+                    <h2>Voice Love Note ❤️🎙️</h2>
+                    <p class="text-center" style="color: var(--accent-color); margin-top: 1rem;">
+                        Sorry, your browser doesn't support voice recording features needed for this tool. Try updating your browser or using a different one (like Chrome or Firefox).
+                    </p>`;
+                 return; // Stop rendering if not supported
+            }
+
+
+            toolDisplay.innerHTML = `
+                <h2>Voice Love Note ❤️🎙️</h2>
+                <p class="text-center" style="margin-bottom: 1.5rem;">Record a sweet message for your loved one! (Max 60 seconds)</p>
+                <div class="text-center">
+                    <button id="startRecordBtn" class="animated-button">Start Recording</button>
+                    <button id="stopRecordBtn" class="animated-button" style="background-color: var(--accent-color); margin-left: 10px;" disabled>Stop Recording</button>
+                </div>
+                <div id="recordStatus" style="text-align: center; margin-top: 1rem; font-weight: bold;">Ready to record...</div>
+                 <div id="timerDisplay" style="text-align: center; margin-top: 0.5rem; font-size: 0.9em; color: #555;"></div>
+                <div id="audioPlayback" class="result-area hidden text-center">
+                    <p>Recording Complete!</p>
+                    <audio controls id="audioPlayer" style="width: 100%; max-width: 400px; margin-top: 10px;"></audio>
+                     <p style="margin-top: 1rem;"><a id="downloadAudioLink" href="#" download="love_note.wav" class="animated-button" style="font-size: 0.9em; background-color: var(--secondary-color);">Download Note</a></p>
+                </div>
+                <p id="micError" style="color: var(--accent-color); text-align: center; margin-top: 1rem; display: none;"></p>
+            `;
+
+            const startBtn = document.getElementById('startRecordBtn');
+            const stopBtn = document.getElementById('stopRecordBtn');
+            const statusDiv = document.getElementById('recordStatus');
+            const playbackDiv = document.getElementById('audioPlayback');
+            const audioPlayer = document.getElementById('audioPlayer');
+             const downloadLink = document.getElementById('downloadAudioLink');
+            const errorDiv = document.getElementById('micError');
+             const timerDiv = document.getElementById('timerDisplay');
+
+             let streamRef = null; // To hold the stream for stopping later
+             let timerInterval = null;
+             let secondsRecorded = 0;
+             const maxDuration = 60; // Max recording duration in seconds
+
+
+            startBtn.onclick = async () => {
+                playSound(clickSound);
+                 errorDiv.style.display = 'none'; // Hide previous errors
+                 playbackDiv.classList.add('hidden'); // Hide previous recording
+                 if (audioUrl) URL.revokeObjectURL(audioUrl); // Revoke old URL
+                 audioChunks = []; // Reset chunks
+                 secondsRecorded = 0; // Reset timer
+                 if (timerInterval) clearInterval(timerInterval); // Clear previous timer interval
+                  timerDiv.textContent = '';
+
+
+                 try {
+                     // Ensure previous stream is stopped
+                     if (streamRef) {
+                         streamRef.getTracks().forEach(track => track.stop());
+                     }
+
+                     streamRef = await navigator.mediaDevices.getUserMedia({ audio: true }); // Get new stream
+                     mediaRecorder = new MediaRecorder(streamRef); // Create recorder with the stream
+
+                     mediaRecorder.ondataavailable = event => {
+                         if (event.data.size > 0) {
+                             audioChunks.push(event.data);
+                         }
+                     };
+
+                     mediaRecorder.onstop = () => {
+                         if (timerInterval) clearInterval(timerInterval); // Stop timer on stop
+                         // Combine chunks into a single Blob
+                         audioBlob = new Blob(audioChunks, { type: 'audio/wav' }); // Use WAV for broader compatibility
+                         audioUrl = URL.createObjectURL(audioBlob);
+                         audioPlayer.src = audioUrl;
+                         downloadLink.href = audioUrl;
+                         downloadLink.download = `love_note_${Date.now()}.wav`; // Unique filename
+
+                         statusDiv.textContent = 'Recording stopped.';
+                         timerDiv.textContent = `Duration: ${secondsRecorded}s`;
+                         playbackDiv.classList.remove('hidden');
+                         startBtn.disabled = false;
+                         stopBtn.disabled = true;
+                         playSound(successSound);
+
+                          // Stop the tracks explicitly AFTER recording is done and blob created
+                          if (streamRef) {
+                              streamRef.getTracks().forEach(track => track.stop());
+                              streamRef = null; // Clear reference
+                          }
+                     };
+
+                      mediaRecorder.onerror = (event) => {
+                          console.error("MediaRecorder error:", event.error);
+                           errorDiv.textContent = `Recording Error: ${event.error.name}. Please try again.`;
+                           errorDiv.style.display = 'block';
+                            if (timerInterval) clearInterval(timerInterval);
+                            startBtn.disabled = false;
+                            stopBtn.disabled = true;
+                            if (streamRef) streamRef.getTracks().forEach(track => track.stop());
+                      };
+
+
+                     mediaRecorder.start();
+                     statusDiv.textContent = '🔴 Recording...';
+                      secondsRecorded = 0;
+                      timerDiv.textContent = `0s / ${maxDuration}s`;
+                      timerInterval = setInterval(() => {
+                         secondsRecorded++;
+                         timerDiv.textContent = `${secondsRecorded}s / ${maxDuration}s`;
+                         if (secondsRecorded >= maxDuration) {
+                              if (mediaRecorder && mediaRecorder.state === "recording") {
+                                   mediaRecorder.stop(); // Automatically stop if max duration reached
+                              }
+                         }
+                      }, 1000);
+
+                     startBtn.disabled = true;
+                     stopBtn.disabled = false;
+
+                 } catch (err) {
+                     console.error("Error accessing microphone:", err);
+                      let errorMsg = `Error: Could not access microphone. (${err.name})`;
+                      if (err.name === 'NotAllowedError') {
+                          errorMsg = "Error: Microphone permission denied. Please allow access in your browser settings.";
+                      } else if (err.name === 'NotFoundError') {
+                           errorMsg = "Error: No microphone found. Please ensure a microphone is connected and enabled.";
+                      }
+                     errorDiv.textContent = errorMsg;
+                     errorDiv.style.display = 'block';
+                     startBtn.disabled = false;
+                     stopBtn.disabled = true;
+                      if (timerInterval) clearInterval(timerInterval);
+                      if (streamRef) streamRef.getTracks().forEach(track => track.stop()); // Clean up stream on error
+                 }
+             };
+
+            stopBtn.onclick = () => {
+                playSound(clickSound);
+                if (mediaRecorder && mediaRecorder.state === "recording") {
+                    mediaRecorder.stop(); // This triggers the 'onstop' event handler
+                }
+                 // Explicitly stop timer here too, in case stop is clicked before max duration
+                if (timerInterval) clearInterval(timerInterval);
+            };
+        }
+
+        // 16. Text to Love Note Art
+        function renderTextToArt() {
+            toolDisplay.innerHTML = `
+                <h2>Text to Love Note Art ASCII Style</h2>
+                <div class="form-group">
+                    <label for="artText">Your Short Message (Max 15 chars):</label>
+                    <input type="text" id="artText" placeholder="e.g., I Love You" maxlength="15">
+                </div>
+                 <div class="form-group">
+                    <label for="artStyle">Choose Style:</label>
+                    <select id="artStyle">
+                        <option value="heart">Classic Heart</option>
+                        <option value="banner">Simple Banner</option>
+                         <option value="block">Block Letters</option>
+                    </select>
+                </div>
+                <div class="text-center">
+                     <button id="generateArtBtn" class="animated-button">Create Art</button>
+                </div>
+                <div id="artResult" class="result-area hidden">
+                    <pre id="ascii-art-output"></pre>
+                    <button id="copyArtBtn" class="animated-button" style="font-size: 0.8em; padding: 0.4rem 0.8rem; margin-top: 1rem; background-color: var(--secondary-color);">Copy Art</button>
+                </div>
+            `;
+
+             document.getElementById('generateArtBtn').addEventListener('click', () => {
+                 playSound(clickSound);
+                 const text = document.getElementById('artText').value.trim() || "Love";
+                 const style = document.getElementById('artStyle').value;
+                 const outputPre = document.getElementById('ascii-art-output');
+                 const resultDiv = document.getElementById('artResult');
+
+                 let art = "";
+                 switch(style) {
+                     case 'heart': art = generateAsciiHeart(text); break;
+                     case 'banner': art = generateAsciiBanner(text); break;
+                     case 'block': art = generateAsciiBlock(text); break; // Needs implementation
+                     default: art = generateAsciiHeart(text);
+                 }
+
+
+                 outputPre.textContent = art;
+                 resultDiv.classList.remove('hidden');
+                 playSound(successSound);
+             });
+
+              // Add copy functionality
+              document.getElementById('copyArtBtn').addEventListener('click', () => {
+                   const artText = document.getElementById('ascii-art-output').textContent;
+                   navigator.clipboard.writeText(artText).then(() => {
+                       alert('ASCII Art copied to clipboard!');
+                       playSound(clickSound); // Reuse click sound
+                   }).catch(err => {
+                       console.error('Failed to copy text: ', err);
+                       alert('Failed to copy art. Your browser might not support this feature.');
+                   });
+              });
+
+        }
+
+        // Helper for simple ASCII Heart
+        function generateAsciiHeart(text) {
+            // Simple fixed heart shape, embedding text crudely
+             const maxLen = 12;
+             const T = text.toUpperCase().slice(0, maxLen).padEnd(maxLen); // Pad/truncate text
+
+             const line1 = `  ****** ****** `;
+             const line2 = `********** **********`;
+             const line3 = `************* *************`;
+             const line4 = `*****************************`;
+             const line5 = `*****************************`;
+             // Split text - try to center somewhat
+             const split1 = Math.floor(maxLen / 3);
+             const split2 = Math.floor(maxLen * 2 / 3);
+             const text1 = T.slice(0, split1).padEnd(split1);
+             const text2 = T.slice(split1, split2).padEnd(split2 - split1);
+             const text3 = T.slice(split2).padEnd(maxLen - split2);
+
+             const line6 = ` *** ${text1}  ${text2}  ${text3} *** `;
+             const line7 = `  ***** LOVE    ***** `; // Placeholder or keep simple
+             const line8 = `   *********** *********** `;
+             const line9 = `     ********* ********* `;
+             const line10 = `       ******* ******* `;
+             const line11 = `         ***** ***** `;
+             const line12 = `           *** *** `;
+             const line13 = `            * * `;
+             const line14 = `             * `;
+
+            return [line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11, line12, line13, line14].join('\n');
+        }
+         // Helper for simple ASCII Banner
+        function generateAsciiBanner(text) {
+            const maxLen = 15;
+             const T = text.toUpperCase().slice(0, maxLen);
+             const bannerWidth = T.length + 4; // Adjust width based on text
+             const topBottom = '+'.padEnd(bannerWidth -1, '-') + '+';
+             const middle = `| ${T} |`;
+
+            return `${topBottom}\n${middle}\n${topBottom}`;
+        }
+        // Helper for ASCII Block Letters (Basic Example - needs more robust implementation for all letters)
+        function generateAsciiBlock(text) {
+             // This is a very simplified example for a few letters.
+             // A full implementation requires defining each letter's pattern.
+             text = text.toUpperCase().slice(0, 8); // Limit length for simplicity
+             let output = ["", "", "", "", ""]; // 5 lines high
+             const letters = {
+                 'A': [" AAA ", "A   A", "AAAAA", "A   A", "A   A"],
+                 'B': ["BBBB ", "B   B", "BBBB ", "B   B", "BBBB "],
+                 'C': [" CCC ", "C    ", "C    ", "C    ", " CCC "],
+                 'D': ["DDD  ", "D  D ", "D  D ", "D  D ", "DDD  "],
+                 'E': ["EEEEE", "E    ", "EEE  ", "E    ", "EEEEE"],
+                 'L': ["L    ", "L    ", "L    ", "L    ", "LLLLL"],
+                 'O': [" OOO ", "O   O", "O   O", "O   O", " OOO "],
+                 'V': ["V   V", "V   V", "V   V", " V V ", "  V  "],
+                 'I': [" III ", "  I  ", "  I  ", "  I  ", " III "],
+                 'U': ["U   U", "U   U", "U   U", "U   U", " UUU "],
+                 ' ': ["     ", "     ", "     ", "     ", "     "], // Space
+                 // ... Add many more letters
+             };
+
+             for (let char of text) {
+                 const pattern = letters[char] || letters[' ']; // Use space for unknown chars
+                 for (let i = 0; i < 5; i++) {
+                     output[i] += (pattern[i] || "     ") + " "; // Add pattern line + space
+                 }
+             }
+             return output.join('\n');
+        }
+
+        // 17. Star Map Generator (Simple)
+        function renderStarMap() {
+             const savedAnniversaryDate = localStorage.getItem('anniversaryDate'); // Reuse anniversary date
+             const name1 = localStorage.getItem('starMapName1') || ''; // Store names too
+             const name2 = localStorage.getItem('starMapName2') || '';
+
+             toolDisplay.innerHTML = `
+                <h2>Our Special Night Sky ✨</h2>
+                <p style="margin-bottom: 1rem;">Generate a symbolic star map for your special date! (Uses a generic placeholder image)</p>
+                 <div class="form-group">
+                    <label for="starMapDate">Select Special Date:</label>
+                    <input type="date" id="starMapDate" value="${savedAnniversaryDate || ''}">
+                </div>
+                 <div class="form-group">
+                    <label for="starMapName1">Your Name (for map label):</label>
+                    <input type="text" id="starMapName1" value="${name1}" placeholder="e.g., Alex">
+                </div>
+                 <div class="form-group">
+                    <label for="starMapName2">Partner's Name (for map label):</label>
+                    <input type="text" id="starMapName2" value="${name2}" placeholder="e.g., Jamie">
+                </div>
+                <div class="text-center">
+                     <button id="generateMapBtn" class="animated-button">Generate Star Map</button>
+                </div>
+                <div id="starMapResult" class="result-area hidden text-center">
+                    <p>The stars aligned for you on:</p>
+                    <strong id="starMapDateDisplay" style="font-size: 1.2em;"></strong>
+                    <div style="margin-top: 1rem; position: relative; display: inline-block; background-color: #000020; padding: 10px; border-radius: 8px;">
+                        <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="background-color: #000020; border-radius: 5px;">
+                            <defs>
+                                <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="rgba(255,255,255,0.3)" />
+                                <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                                </radialGradient>
+                            </defs>
+                             <circle cx="50" cy="40" r="2" fill="white" /> <circle cx="50" cy="40" r="4" fill="url(#glow)" />
+                             <circle cx="100" cy="80" r="1.5" fill="white" />
+                             <circle cx="150" cy="50" r="2.5" fill="white" /><circle cx="150" cy="50" r="5" fill="url(#glow)" />
+                             <circle cx="200" cy="120" r="1" fill="white" />
+                             <circle cx="250" cy="70" r="2" fill="white" /> <circle cx="250" cy="70" r="4" fill="url(#glow)" />
+                             <circle cx="80" cy="150" r="1.5" fill="white" />
+                             <circle cx="30" cy="100" r="1" fill="white" />
+                             <circle cx="180" cy="20" r="2" fill="white" /> <circle cx="180" cy="20" r="4" fill="url(#glow)" />
+                             <circle cx="220" cy="160" r="1.5" fill="white" />
+                              <circle cx="120" cy="180" r="1" fill="white" />
+                              <circle cx="280" cy="140" r="2" fill="white" /> <circle cx="280" cy="140" r="4" fill="url(#glow)" />
+                             <circle cx="60" cy="190" r="1" fill="white" />
+                             <circle cx="20" cy="10" r="1.5" fill="white" />
+                              <circle cx="290" cy="10" r="2" fill="white" /> <circle cx="290" cy="10" r="4" fill="url(#glow)" />
+
+
+                            <text x="10" y="185" font-family="var(--font-body), sans-serif" font-size="12" fill="rgba(255,255,255,0.8)" id="starMapLabel1">Name1 ❤️ Name2</text>
+                             <text x="290" y="185" text-anchor="end" font-family="var(--font-body), sans-serif" font-size="12" fill="rgba(255,255,255,0.8)" id="starMapLabelDate">Date</text>
+                         </svg>
+
+                    </div>
+                     <p style="font-size: 0.8em; margin-top: 10px;">(This is a symbolic representation, not an actual astronomical chart)</p>
+                </div>
+            `;
+
+            document.getElementById('generateMapBtn').addEventListener('click', () => {
+                playSound(clickSound);
+                const dateInput = document.getElementById('starMapDate');
+                const name1Input = document.getElementById('starMapName1');
+                const name2Input = document.getElementById('starMapName2');
+                const resultDiv = document.getElementById('starMapResult');
+                const dateDisplay = document.getElementById('starMapDateDisplay');
+                 const mapLabel1 = document.getElementById('starMapLabel1');
+                 const mapLabelDate = document.getElementById('starMapLabelDate');
+
+
+                if (!dateInput.value || !name1Input.value || !name2Input.value) {
+                    alert("Please select a date and enter both names for the star map.");
+                    return;
+                }
+                 // Save names for next time
+                  localStorage.setItem('starMapName1', name1Input.value);
+                  localStorage.setItem('starMapName2', name2Input.value);
+                  // Optionally save date as anniversary if user wants
+                  // localStorage.setItem('anniversaryDate', dateInput.value);
+
+
+                const displayDate = new Date(dateInput.value + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                dateDisplay.textContent = displayDate;
+
+                 // Update SVG labels
+                 mapLabel1.textContent = `${name1Input.value.trim()} ❤️ ${name2Input.value.trim()}`;
+                 mapLabelDate.textContent = new Date(dateInput.value + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+
+                resultDiv.classList.remove('hidden');
+                playSound(successSound);
+                // Placeholder SVG is updated with text dynamically.
+            });
+        }
+
+
+        // 18. Love Dare Spinner
+        let spinning = false;
+        let currentRotation = 0; // Keep track of current rotation
+
+        function renderLoveDareSpinner() {
+             const dares = [
+                "Give a genuine 5-minute massage (shoulders, hands, or feet)",
+                "Write a short, heartfelt love note and hide it somewhere surprising",
+                "Plan your next date night completely (activity, time, place)",
+                "Share 3 specific things you genuinely admire about your partner today",
+                "Cook a simple meal or dessert together, side-by-side",
+                "Find a song you both love and slow dance in the living room",
+                "Have a 1-minute compliment marathon - no repeats!",
+                "Try to recreate your first date photo (or a favorite early photo)",
+                "Share one secret wish or dream you haven't mentioned before",
+                "Do one chore for your partner that they usually do, without being asked",
+                "Hold hands without talking for 10 minutes (while watching TV, walking, etc.)",
+                "Make an effort to watch the sunset or sunrise together this week",
+                "Ask 'How was your day?' and listen intently for 5 minutes without interrupting",
+                "Leave a positive sticky note on the bathroom mirror for them",
+                "Plan a fun, non-screen activity for 30 minutes (game, walk, talk)"
+             ];
+
+             toolDisplay.innerHTML = `
+                <h2>Love Dare Spinner 🎡</h2>
+                <p class="text-center" style="margin-bottom: 1.5rem;">Spin the wheel for a fun couple's dare!</p>
+                <div class="spinner-container">
+                    <div class="wheel" id="spinnerWheel" style="transform: rotate(${currentRotation}deg)">
+                         </div>
+                    <button id="spinBtn" class="animated-button" style="margin-top: 2rem;">Spin the Wheel!</button>
+                </div>
+                <div id="spinnerResult" class="result-area hidden text-center"></div>
+            `;
+
+             const wheel = document.getElementById('spinnerWheel');
+             const spinBtn = document.getElementById('spinBtn');
+             const resultDiv = document.getElementById('spinnerResult');
+
+             spinBtn.addEventListener('click', () => {
+                 if (spinning) return; // Prevent re-spin while animating
+
+                 playSound(spinSound || clickSound); // Use spin sound if available
+                 spinning = true;
+                 spinBtn.disabled = true;
+                 spinBtn.textContent = "Spinning..."
+                 resultDiv.classList.add('hidden'); // Hide previous result
+
+                 const numDares = dares.length;
+                 const randomIndex = Math.floor(Math.random() * numDares);
+                 const selectedDare = dares[randomIndex];
+                 const degreesPerSegment = 360 / numDares;
+
+                  // Calculate rotation:
+                  // 1. Base rotation for full spins (e.g., 5-8 spins)
+                  const fullSpins = (Math.floor(Math.random() * 4) + 5) * 360; // 5 to 8 full spins
+                  // 2. Target segment position (center the pointer on the segment)
+                  //    Pointer is at top (0 deg), so we need to rotate segment `randomIndex` to the top.
+                  //    Rotation needs to be counter-clockwise (-), or 360 - clockwise angle.
+                  const targetAngle = 360 - (randomIndex * degreesPerSegment);
+                  // 3. Add small random offset within the target segment for variability
+                  const randomOffset = (Math.random() - 0.5) * degreesPerSegment * 0.8; // +/- 40% of segment width
+
+                  // Combine: Current rotation + full spins + target + offset
+                  const totalRotation = currentRotation + fullSpins + targetAngle + randomOffset;
+
+                  // Apply the rotation using CSS transition
+                 wheel.style.transition = 'transform 4s cubic-bezier(0.25, 1, 0.5, 1)'; // Smoother spin out
+                 wheel.style.transform = `rotate(${totalRotation}deg)`;
+
+                  // Store the final angle (modulo 360) for the next spin to start from
+                 currentRotation = totalRotation % 360;
+
+
+                 // Wait for animation to finish
+                 setTimeout(() => {
+                     resultDiv.innerHTML = `
+                        <p>Your Love Dare:</p>
+                        <strong style="font-size: 1.2em;">${selectedDare}</strong> 💕
+                     `;
+                     resultDiv.classList.remove('hidden');
+                     spinning = false;
+                     spinBtn.disabled = false;
+                     spinBtn.textContent = "Spin the Wheel!"
+                     playSound(successSound);
+
+                     // Optional: Reset transition timing function after spin
+                     // wheel.style.transition = 'transform 4s cubic-bezier(0.34, 1.56, 0.64, 1)'; // Or remove transition style
+
+                 }, 4100); // Match CSS transition duration + small buffer
+             });
+        }
+
+        // 19. Heart Emoji Rain Mode
+        let heartRainInterval = null;
+        let rainActive = false; // Track state explicitly
+
+        function renderHeartRain() {
+            toolDisplay.innerHTML = `
+                <h2>Heart Emoji Rain Mode ❤️🌧️</h2>
+                <p class="text-center" style="margin-bottom: 1.5rem;">Activate a shower of love emojis!</p>
+                <div class="text-center">
+                    <button id="toggleHeartRainBtn" class="animated-button">${rainActive ? 'Deactivate Rain' : 'Activate Rain'}</button>
+                </div>
+                 <p id="rainStatus" class="text-center" style="margin-top: 1rem; font-weight: bold;">${rainActive ? 'Let it rain love! ❤️' : 'Rain is currently off.'}</p>
+            `;
+
+             // Ensure button style matches initial state
+             const toggleBtn = document.getElementById('toggleHeartRainBtn');
+             if(rainActive) {
+                  toggleBtn.style.backgroundColor = 'var(--accent-color)';
+             } else {
+                  toggleBtn.style.backgroundColor = 'var(--primary-color)';
+             }
+
+             toggleBtn.addEventListener('click', () => {
+                 playSound(clickSound);
+                 const statusP = document.getElementById('rainStatus'); // Get status element inside handler
+
+                 if (rainActive) {
+                     // Stop rain
+                     if (heartRainInterval) clearInterval(heartRainInterval);
+                     heartRainInterval = null;
+                     rainActive = false;
+                     toggleBtn.textContent = 'Activate Rain';
+                     toggleBtn.style.backgroundColor = 'var(--primary-color)';
+                     if (statusP) statusP.textContent = 'Rain is currently off.';
+                     // Consider removing existing hearts for immediate stop:
+                     // document.querySelectorAll('.falling-heart').forEach(h => h.remove());
+                 } else {
+                     // Start rain
+                     rainActive = true;
+                     toggleBtn.textContent = 'Deactivate Rain';
+                     toggleBtn.style.backgroundColor = 'var(--accent-color)';
+                     if (statusP) statusP.textContent = 'Let it rain love! ❤️';
+                      // Clear any previous interval just in case
+                      if (heartRainInterval) clearInterval(heartRainInterval);
+                     heartRainInterval = setInterval(createFallingHeart, 250); // Add heart every 250ms
+                     playSound(successSound); // Or a different 'start' sound
+                 }
+             });
+        }
+
+         function createFallingHeart() {
+             const heartEmojis = ['❤️', '💖', '💕', '😍', '😘', '🥰', '💜', '💛', '💚', '💙'];
+             const heart = document.createElement('div');
+             heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)]; // Use emojis
+             heart.classList.add('falling-heart'); // Add class for potential cleanup
+             heart.style.position = 'fixed';
+             heart.style.left = `${Math.random() * 100}vw`;
+             heart.style.top = '-60px'; // Start further above screen
+             heart.style.fontSize = `${Math.random() * 1.5 + 0.8}rem`; // Random size (0.8rem - 2.3rem)
+             heart.style.zIndex = '999'; // High z-index to be on top
+             heart.style.userSelect = 'none';
+             heart.style.pointerEvents = 'none';
+              // Random horizontal drift & rotation
+              const drift = (Math.random() - 0.5) * 100; // +/- 50px horizontal drift
+              const rotation = Math.random() * 90 - 45; // +/- 45deg rotation
+              const fallDuration = Math.random() * 3 + 4; // 4-7 seconds fall time
+
+              heart.style.transition = `transform ${fallDuration}s linear, opacity ${fallDuration * 0.8}s linear ${fallDuration * 0.2}s`; // Fade out later
+              heart.style.opacity = '1';
+
+
+             document.body.appendChild(heart); // Append to body to fall over everything
+
+             // Animate falling using requestAnimationFrame for smoother start
+             requestAnimationFrame(() => {
+                  heart.style.transform = `translate(${drift}px, ${window.innerHeight + 100}px) rotate(${rotation}deg)`; // Fall down with drift/rotation
+                  heart.style.opacity = '0';
+             });
+
+
+             // Remove heart after animation + buffer
+             setTimeout(() => {
+                 heart.remove();
+             }, fallDuration * 1000 + 500); // Match animation duration + buffer
+         }
+
+        // 20. Personal Love Diary
+        function renderLoveDiary() {
+             toolDisplay.innerHTML = `
+                <h2>Personal Love Diary 📝</h2>
+                <p style="margin-bottom: 1rem;">Jot down sweet thoughts, memories, or feelings. (Saved securely in your browser's local storage only)</p>
+                <div class="form-group">
+                    <label for="diaryEntry">New Entry:</label>
+                    <textarea id="diaryEntry" placeholder="Write something sweet...\nToday I felt..." rows="5"></textarea>
+                </div>
+                <div class="text-center">
+                     <button id="saveDiaryEntryBtn" class="animated-button">Save Entry</button>
+                     <button id="clearDiaryBtn" class="animated-button" style="background-color: var(--accent-color); margin-left: 10px;">Clear All Entries</button>
+                </div>
+                <div id="diaryDisplay" style="margin-top: 2rem;">
+                    <h3>Saved Entries (Newest First):</h3>
+                    <div id="diary-entries">
+                        </div>
+                </div>
+            `;
+
+             loadDiaryEntries(); // Load existing entries on render
+
+             document.getElementById('saveDiaryEntryBtn').addEventListener('click', saveDiaryEntry);
+             document.getElementById('clearDiaryBtn').addEventListener('click', clearDiary);
+        }
+
+        function loadDiaryEntries() {
+            const entriesContainer = document.getElementById('diary-entries');
+            if (!entriesContainer) return; // Tool not visible
+
+             try {
+                 const entries = JSON.parse(localStorage.getItem('loveDiaryEntries') || '[]');
+                 entriesContainer.innerHTML = ''; // Clear current display
+
+                 if (entries.length === 0) {
+                     entriesContainer.innerHTML = '<p>No entries yet. Write your first one!</p>';
+                     return;
+                 }
+
+                 // Display newest first
+                 entries.reverse().forEach(entry => {
+                     const entryDiv = document.createElement('div');
+                     // Basic sanitation - replace < and > to prevent HTML injection
+                     const safeText = (entry.text || '').replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                     // Format date nicely
+                     const dateStr = new Date(entry.timestamp).toLocaleString('en-US', {
+                          year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
+                     });
+                     entryDiv.innerHTML = `<p style="white-space: pre-wrap;">${safeText}</p><small>${dateStr}</small>`; // Use pre-wrap to preserve line breaks
+                     entriesContainer.appendChild(entryDiv);
+                 });
+
+             } catch (e) {
+                  console.error("Error loading or parsing diary entries:", e);
+                  entriesContainer.innerHTML = '<p style="color: var(--accent-color);">Error loading entries. Local storage might be corrupt.</p>';
+             }
+        }
+
+        function saveDiaryEntry() {
+            playSound(clickSound);
+            const entryTextarea = document.getElementById('diaryEntry');
+            const text = entryTextarea.value.trim();
+
+            if (!text) {
+                alert('Please write something before saving.');
+                return;
+            }
+
+            try {
+                 const entries = JSON.parse(localStorage.getItem('loveDiaryEntries') || '[]');
+                 const newEntry = {
+                     text: text,
+                     timestamp: new Date().toISOString() // Use ISO string for consistency
+                 };
+                 entries.push(newEntry);
+                 localStorage.setItem('loveDiaryEntries', JSON.stringify(entries));
+
+                 entryTextarea.value = ''; // Clear textarea
+                 loadDiaryEntries(); // Refresh display
+                 playSound(successSound);
+
+            } catch (e) {
+                 console.error("Error saving diary entry:", e);
+                 alert("Could not save entry. Local storage might be full or blocked.");
+            }
+        }
+
+        function clearDiary() {
+             if (confirm('Are you sure you want to delete ALL diary entries? This cannot be undone.')) {
+                 playSound(clickSound);
+                 try {
+                      localStorage.removeItem('loveDiaryEntries');
+                      loadDiaryEntries(); // Refresh display (will show empty message)
+                      playSound(successSound); // Or a deletion sound
+                 } catch (e) {
+                      console.error("Error clearing diary entries:", e);
+                      alert("Could not clear entries.");
+                 }
+             }
+        }
+
+
+        // --- Initial Load ---
+        // Display a default tool or welcome message on page load
+        displayTool(toolSelector.value || 'loveCalculator'); // Load selected tool or default
+
+        // Add a listener to ensure intervals are cleared if user navigates away or closes tab
+        window.addEventListener('beforeunload', () => {
+            if (countdownInterval) clearInterval(countdownInterval);
+            if (heartRainInterval) clearInterval(heartRainInterval);
+            if (timerInterval) clearInterval(timerInterval); // For voice recorder
+             // Stop microphone stream if active
+            if (streamRef) {
+                 streamRef.getTracks().forEach(track => track.stop());
+             }
+        });
+
+
+    </script>
+
+    <script type='text/javascript' src='//pl26572604.profitableratecpm.com/70/9e/31/709e3110637697b0d6fdb3fbb7c331b5.js'></script>
+    </body>
+</html>
